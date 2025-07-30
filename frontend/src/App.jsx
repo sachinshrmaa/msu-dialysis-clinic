@@ -38,7 +38,7 @@ export default function App() {
         MSU Dialysis Clinic Registeration
       </h1>
 
-      <div className="bg-blue-100 w-[500px] rounded-lg p-5 mx-auto mt-[40px] border border-blue-900">
+      <div className="bg-blue-100 w-[90%] lg:w-[500px] rounded-lg p-5 mx-auto mt-[40px] border border-blue-900">
         <form>
           <div className="mb-3">
             <p className="mb-1">Patient Name*</p>
@@ -172,6 +172,9 @@ export default function App() {
         </a>
         <a href="#" className="text-blue-700 underline mr-4">
           About
+        </a>
+        <a href="/admin" className="text-blue-700 underline mr-4">
+          Admin
         </a>
       </div>
     </div>
