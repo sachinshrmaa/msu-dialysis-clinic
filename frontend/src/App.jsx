@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function App() {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ export default function App() {
     try {
       setIsLoading(true);
       const res = await axios.post(
-        "http://localhost:3000/api/register",
+        "https://msu-dialysis-clinic.onrender.com/api/register",
         formData,
         { withCredentials: true }
       );
@@ -173,9 +173,9 @@ export default function App() {
         <a href="#" className="text-blue-700 underline mr-4">
           About
         </a>
-        <a href="/admin" className="text-blue-700 underline mr-4">
+        <Link href="/admin" className="text-blue-700 underline mr-4">
           Admin
-        </a>
+        </Link>
       </div>
     </div>
   );

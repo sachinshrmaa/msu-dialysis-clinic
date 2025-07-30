@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { jsPDF } from "jspdf";
 
 export default function GetReport() {
   const [appointments, setAppointments] = useState([]);
@@ -7,9 +8,12 @@ export default function GetReport() {
   useEffect(() => {
     const getAppointments = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/appointments", {
-          withCredentails: true,
-        });
+        const res = await axios.get(
+          "https://msu-dialysis-clinic.onrender.com/api/appointments",
+          {
+            withCredentails: true,
+          }
+        );
         console.log(res.data);
         setAppointments(res.data?.appointments);
       } catch (error) {
@@ -19,17 +23,39 @@ export default function GetReport() {
     getAppointments();
   }, []);
 
+  // const exportPDF = (data) => {
+  //   const doc = new jsPDF();
+  //   const tableColumn = [
+  //     "name",
+  //     "email",
+  //     "age",
+  //     "gender",
+  //     "contactInfo",
+  //     "appointmentDate",
+  //     "dialysisType",
+  //   ];
+  //   const tableRows = [];
+
+  //   appointments.forEach((item) => {
+  //     const rowData = [item.prop1, item.prop2]; // Map your data to table rows
+  //     tableRows.push(rowData);
+  //   });
+
+  //   doc.autoTable(tableColumn, tableRows, { startY: 20 });
+  //   doc.save("appointments.pdf");
+  // };
+
   return (
     <div className="mx-5">
       <h1 className="font-semibold text-lg my-3">Appointments</h1>
 
-      <a href="#" className="underline text-blue-700 mr-3">
+      <Link className="underline text-blue-700 mr-3">
         Download Appointment Records
-      </a>
+      </Link>
 
-      <a href="/" className="underline text-blue-800">
+      <Link href="/" className="underline text-blue-800">
         Back to home
-      </a>
+      </Link>
 
       <div className="grid grid-cols-4 mt-4 gap-4">
         {appointments.map((a) => (
