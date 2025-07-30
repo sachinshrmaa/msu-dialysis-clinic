@@ -1,3 +1,4 @@
+import { transporter } from "../lib/mail.js";
 import User from "../models/user.js";
 
 export const registerAppointment = async (req, res) => {
@@ -43,6 +44,22 @@ export const registerAppointment = async (req, res) => {
 
   const savedUser = await newUser.save();
   // console.log(savedUser);
+
+  // mailbody
+  const mailData = {
+    from: "stipillin@gmail.com", // sender address
+    to: email, // list of receivers
+    subject: "Registeration Successful",
+    text: "That was easy!",
+    html: "<b>Hey there! </b> <br> This is our first message sent with Nodemailer<br/>",
+  };
+
+  transporter.sendMail(mailData, (error, info) => {
+    if (error) {
+      return console.log(error);
+    }
+    console.log("mail sent");
+  });
 
   return res.json({
     message: "User appointment registered successfully",
