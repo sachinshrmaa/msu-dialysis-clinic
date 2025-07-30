@@ -1,66 +1,77 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { jsPDF } from "jspdf";
 import { Link } from "react-router-dom";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 export default function GetReport() {
   const [appointments, setAppointments] = useState([]);
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const getAppointments = async () => {
+      setIsLoading(true)
       try {
         const res = await axios.get(
           "https://msu-dialysis-clinic.onrender.com/api/appointments",
           {
-            withCredentails: true,
+            withCredentials: true, 
           }
         );
         console.log(res.data);
-        setAppointments(res.data?.appointments);
+        setAppointments(res.data?.appointments || []);
+        setIsLoading(false)
       } catch (error) {
         console.log(error);
+        setIsLoading(false)
       }
     };
     getAppointments();
   }, []);
 
-  // const exportPDF = (data) => {
-  //   const doc = new jsPDF();
-  //   const tableColumn = [
-  //     "name",
-  //     "email",
-  //     "age",
-  //     "gender",
-  //     "contactInfo",
-  //     "appointmentDate",
-  //     "dialysisType",
-  //   ];
-  //   const tableRows = [];
+  const downloadPDF = () => {
+    const doc = new jsPDF();
 
-  //   appointments.forEach((item) => {
-  //     const rowData = [item.prop1, item.prop2]; // Map your data to table rows
-  //     tableRows.push(rowData);
-  //   });
+    doc.text("Appointment Records", 14, 15);
+    
+    autoTable(doc, {
+      startY: 20,
+      head: [["Name", "Age", "Gender", "Contact", "Date"]],
+      body: appointments.map((a) => [
+        a?.name,
+        a?.age,
+        a?.gender,
+        a?.contactInfo,
+        a?.appointmentDate,
+      ]),
+    });
 
-  //   doc.autoTable(tableColumn, tableRows, { startY: 20 });
-  //   doc.save("appointments.pdf");
-  // };
+    doc.save("appointments.pdf");
+  };
 
   return (
     <div className="mx-5">
       <h1 className="font-semibold text-lg my-3">Appointments</h1>
 
-      <Link to="/admin" className="underline text-blue-700 mr-3">
-        Download Appointment Records
-      </Link>
+      <button
+        onClick={downloadPDF}
+        className="underline text-green-700 mr-3"
+      >
+        Download Appointment Records as PDF
+      </button>
 
-      <Link to="/" className="underline text-blue-800">
+      <Link to="/" className="underline text-blue-800 ml-3">
         Back to home
       </Link>
 
+      {isLoading && <p className="mt-7 text-center">Loading...</p>}
+
       <div className="grid grid-cols-4 mt-4 gap-4">
-        {appointments.map((a) => (
-          <div className="bg-slate-200 rounded p-3 hover:bg-slate-300">
+        {appointments.map((a, i) => (
+          <div
+            key={i}
+            className="bg-slate-200 rounded p-3 hover:bg-slate-300"
+          >
             <p>
               <b>Name:</b> {a?.name}
             </p>
@@ -82,7 +93,6 @@ export default function GetReport() {
           </div>
         ))}
       </div>
-      <div></div>
     </div>
   );
 }

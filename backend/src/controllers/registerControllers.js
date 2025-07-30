@@ -42,24 +42,16 @@ export const registerAppointment = async (req, res) => {
     dialysisType,
   });
 
-  const savedUser = await newUser.save();
-  // console.log(savedUser);
-
   // mailbody
-  const mailData = {
-    from: "stipillin@gmail.com", // sender address
-    to: email, // list of receivers
-    subject: "Registeration Successful",
-    text: "That was easy!",
-    html: "<b>Hey there! </b> <br> This is our first message sent with Nodemailer<br/>",
-  };
+  const mailOptions = {
+        from: '"MSU Clinic" mail.sachinbuilds@gmail.com',
+        to: email,
+        subject: 'Registration Successful',
+        text: `Hi ${name},\n\nThank you for registering! Your dialysis appointment has been booked successfully.\n\n- Your MSU Clinic Team`
+    };
 
-  transporter.sendMail(mailData, (error, info) => {
-    if (error) {
-      return console.log(error);
-    }
-    console.log("mail sent");
-  });
+  await transporter.sendMail(mailOptions);
+  const savedUser = await newUser.save();
 
   return res.json({
     message: "User appointment registered successfully",
@@ -69,7 +61,6 @@ export const registerAppointment = async (req, res) => {
 
 export const getAllAppointments = async (req, res) => {
   try {
-    // Get all the users from the DB
     const user = await User.find();
     return res.json({ message: "All Appointments", appointments: user });
   } catch (error) {
