@@ -173,7 +173,7 @@ export default function App() {
         <a href="#" className="text-blue-700 underline mr-4">
           About
         </a>
-        <Link href="/admin" className="text-blue-700 underline mr-4">
+        <Link to="/admin" className="text-blue-700 underline mr-4">
           Admin
         </Link>
       </div>

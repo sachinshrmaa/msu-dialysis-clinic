@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { jsPDF } from "jspdf";
+import { Link } from "react-router-dom";
 
 export default function GetReport() {
   const [appointments, setAppointments] = useState([]);
@@ -49,11 +50,11 @@ export default function GetReport() {
     <div className="mx-5">
       <h1 className="font-semibold text-lg my-3">Appointments</h1>
 
-      <Link className="underline text-blue-700 mr-3">
+      <Link to="/admin" className="underline text-blue-700 mr-3">
         Download Appointment Records
       </Link>
 
-      <Link href="/" className="underline text-blue-800">
+      <Link to="/" className="underline text-blue-800">
         Back to home
       </Link>
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Success() {
   return (
@@ -6,7 +7,7 @@ export default function Success() {
       <h1 className="pt-10 text-2xl mb-10 ">
         Appointment Booked Successfully!
       </h1>
-      <Link href="/" className="underline text-blue-800">
+      <Link to="/" className="underline text-blue-800">
         back to home
       </Link>
     </div>
