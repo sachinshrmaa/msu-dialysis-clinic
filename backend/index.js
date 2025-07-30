@@ -14,10 +14,7 @@ const db = mongoose.connection;
 app.use(express.json());
 
 // CORS middleware
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://msu-dialysis-clinic.vercel.app/",
-];
+const allowedOrigins = ["https://msu-dialysis-clinic.vercel.app/"];
 
 // CORS options
 const corsOptions = {
